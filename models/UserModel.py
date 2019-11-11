@@ -1,10 +1,12 @@
+from uuid import uuid4
+from datetime import datetime
 from db import db
 
 
 class UserModel(db.Model):
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     name = db.Column(db.String(191), nullable=False)
     username = db.Column(db.String(191), nullable=False, comment="must Unique")
     photo_profile = db.Column(db.Text, nullable=False)
@@ -25,16 +27,16 @@ class UserModel(db.Model):
     email_verified_at = db.Column(db.TIMESTAMP, default=None)
     password = db.Column(db.String(191), nullable=False)
     type_theme = db.Column(db.String(100), nullable=False)
-    visit = db.Column(db.Integer(11), default=None)
+    visit = db.Column(db.Integer(), default=0)
     remember_token = db.Column(db.String(100), default=None)
-    created_at = db.Column(db.TIMESTAMP, nullable=False)
+    created_at = db.Column(db.TIMESTAMP, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.TIMESTAMP, default=None)
     deleted_at = db.Column(db.TIMESTAMP, default=None, comment="for soft delete")
 
     def __init__(self, name, username, photo_profile, phonenumber, birthday_place, birthday,
                  address, resume, headline, summary, email, link_instagram, link_linkedin,
-                 link_twitter, link_youtube, link_google_plus, link_facebook, email_verified_at,
-                 password, type_theme, visit, remember_token, created_at, updated_at, deleted_at):
+                 link_twitter, link_youtube, link_google_plus, link_facebook, password,
+                 type_theme):
         self.name = name
         self.username = username
         self.photo_profile = photo_profile
@@ -52,23 +54,67 @@ class UserModel(db.Model):
         self.link_youtube = link_youtube
         self.link_google_plus = link_google_plus
         self.link_facebook = link_facebook
-        self.email_verified_at = email_verified_at
         self.password = password
         self.type_theme = type_theme
-        self.visit = visit
-        self.remember_token = remember_token
-        self.created_at = created_at
-        self.updated_at = updated_at
-        self.deleted_at = deleted_at
 
-    def save_to_db(self):
+    def json(self):
+        return {
+            'message': 'User found.',
+            'data': {
+                'id': self.id,
+                'name': self.name,
+                'username': self.username,
+                'photo_profile': self.photo_profile,
+                'phonenumber': self.phonenumber,
+                'birthday_place': self.birthday_place,
+                'birthday': "{}-{}-{}".format(self.birthday.year, self.birthday.month, self.birthday.day),
+                'address': self.address,
+                'resume': self.resume,
+                'headline': self.headline,
+                'summary': self.summary,
+                'email': self.email,
+                'link_instagram': self.link_instagram,
+                'link_linkedin': self.link_linkedin,
+                'link_twitter': self.link_twitter,
+                'link_youtube': self.link_youtube,
+                'link_google_plus': self.link_google_plus,
+                'link_facebook': self.link_facebook,
+                'email_verified_at': "{}".format(self.email_verified_at) if self.email_verified_at else None,
+                'password': self.password,
+                'type_theme': self.type_theme,
+                'visit': self.visit,
+                'created_at': "{}".format(self.created_at) if self.created_at else None,
+                'updated_at': "{}".format(self.updated_at) if self.updated_at else None,
+                'deleted_at': "{}".format(self.deleted_at) if self.deleted_at else None,
+            }
+        }
+
+    def save(self):
+        self.created_at = datetime.now()
         db.session.add(self)
         db.session.commit()
 
-    @classmethod
-    def find_by_username(cls, username):
-        return cls.query.filter_by(username=username).first()
+    def update(self):
+        self.updated_at = datetime.now()
+        db.session.update(self)
+        db.session.commit()
+
+    def delete(self):
+        self.deleted_at = datetime.now()
+        db.session.commit()
 
     @classmethod
     def find_by_id(cls, _id):
-        return cls.query.filter_by(id=_id).first()
+        return cls.query.filter_by(id=_id, deleted_at=None).first()
+
+    @classmethod
+    def find_by_username(cls, _username):
+        return cls.query.filter_by(username=_username, deleted_at=None).first()
+
+    @classmethod
+    def find_by_email(cls, _email):
+        return cls.query.filter_by(email=_email, deleted_at=None).first()
+
+    @classmethod
+    def find_by_phonenumber(cls, _phonenumber):
+        return cls.query.filter_by(phonenumber=_phonenumber, deleted_at=None).first()

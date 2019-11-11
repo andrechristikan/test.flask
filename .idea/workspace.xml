@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e14985a6-d1bd-43a0-bf76-9f3482cbe4ce" name="Default Changelist" comment="" />
+    <list default="true" id="e14985a6-d1bd-43a0-bf76-9f3482cbe4ce" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/helpers/RoleValidators.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roles/UserRole.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/roles/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/UserModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/UserModel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/User.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/User.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,9 +27,16 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1TJhCvrNTgvA3VN7iFkeYDdOTct" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -59,11 +77,26 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1573183981272</updated>
-      <workItem from="1573183982474" duration="3855000" />
+      <workItem from="1573183982474" duration="4105000" />
+      <workItem from="1573441618608" duration="20412000" />
+      <workItem from="1573472414401" duration="8000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
