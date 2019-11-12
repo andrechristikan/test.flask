@@ -1,6 +1,7 @@
-from uuid import uuid4
 from datetime import datetime
 from db import db
+from sqlalchemy import or_
+from helpers.General import General
 
 
 class UserModel(db.Model):
@@ -35,8 +36,8 @@ class UserModel(db.Model):
 
     def __init__(self, name, username, photo_profile, phonenumber, birthday_place, birthday,
                  address, resume, headline, summary, email, link_instagram, link_linkedin,
-                 link_twitter, link_youtube, link_google_plus, link_facebook, password,
-                 type_theme):
+                 link_twitter, link_youtube, link_google_plus, link_facebook,
+                 password, type_theme):
         self.name = name
         self.username = username
         self.photo_profile = photo_profile
@@ -54,12 +55,12 @@ class UserModel(db.Model):
         self.link_youtube = link_youtube
         self.link_google_plus = link_google_plus
         self.link_facebook = link_facebook
-        self.password = password
+        self.password = General.password_hash(password)
         self.type_theme = type_theme
 
-    def json(self):
+    def json(self, message):
         return {
-            'message': 'User found.',
+            'message': message,
             'data': {
                 'id': self.id,
                 'name': self.name,
@@ -96,7 +97,6 @@ class UserModel(db.Model):
 
     def update(self):
         self.updated_at = datetime.now()
-        db.session.update(self)
         db.session.commit()
 
     def delete(self):
@@ -104,17 +104,109 @@ class UserModel(db.Model):
         db.session.commit()
 
     @classmethod
+    def find_all(cls, _name, _username, _birthday, _phonenumber, _email, message):
+        filters = []
+        response = []
+
+        if _name is not None:
+            filters.append(cls.name == _name)
+        if _username is not None:
+            filters.append(cls.username == _username)
+        if _birthday is not None:
+            filters.append(cls.birthday == _birthday)
+        if _phonenumber is not None:
+            filters.append(cls.phonenumber == _phonenumber)
+        if _email is not None:
+            filters.append(cls.email == _email)
+
+        if filters is not None:
+            users = cls.query.filter(or_(*filters)).all()
+            for user in users:
+                response.append(
+                    {
+                        'id': user.id,
+                        'name': user.name,
+                        'username': user.username,
+                        'photo_profile': user.photo_profile,
+                        'phonenumber': user.phonenumber,
+                        'birthday_place': user.birthday_place,
+                        'birthday': "{}-{}-{}".format(user.birthday.year, user.birthday.month, user.birthday.day),
+                        'address': user.address,
+                        'resume': user.resume,
+                        'headline': user.headline,
+                        'summary': user.summary,
+                        'email': user.email,
+                        'link_instagram': user.link_instagram,
+                        'link_linkedin': user.link_linkedin,
+                        'link_twitter': user.link_twitter,
+                        'link_youtube': user.link_youtube,
+                        'link_google_plus': user.link_google_plus,
+                        'link_facebook': user.link_facebook,
+                        'email_verified_at': "{}".format(user.email_verified_at) if user.email_verified_at else None,
+                        'password': user.password,
+                        'type_theme': user.type_theme,
+                        'visit': user.visit,
+                        'created_at': "{}".format(user.created_at) if user.created_at else None,
+                        'updated_at': "{}".format(user.updated_at) if user.updated_at else None,
+                        'deleted_at': "{}".format(user.deleted_at) if user.deleted_at else None,
+                    }
+                )
+        else:
+            users = cls.query.all()
+            for user in users:
+                response.append(
+                    {
+                        'id': user.id,
+                        'name': user.name,
+                        'username': user.username,
+                        'photo_profile': user.photo_profile,
+                        'phonenumber': user.phonenumber,
+                        'birthday_place': user.birthday_place,
+                        'birthday': "{}-{}-{}".format(user.birthday.year, user.birthday.month, user.birthday.day),
+                        'address': user.address,
+                        'resume': user.resume,
+                        'headline': user.headline,
+                        'summary': user.summary,
+                        'email': user.email,
+                        'link_instagram': user.link_instagram,
+                        'link_linkedin': user.link_linkedin,
+                        'link_twitter': user.link_twitter,
+                        'link_youtube': user.link_youtube,
+                        'link_google_plus': user.link_google_plus,
+                        'link_facebook': user.link_facebook,
+                        'email_verified_at': "{}".format(user.email_verified_at) if user.email_verified_at else None,
+                        'password': user.password,
+                        'type_theme': user.type_theme,
+                        'visit': user.visit,
+                        'created_at': "{}".format(user.created_at) if user.created_at else None,
+                        'updated_at': "{}".format(user.updated_at) if user.updated_at else None,
+                        'deleted_at': "{}".format(user.deleted_at) if user.deleted_at else None,
+                    }
+                )
+
+        return {
+            'message': message,
+            'data': response
+        }
+
+    @classmethod
     def find_by_id(cls, _id):
         return cls.query.filter_by(id=_id, deleted_at=None).first()
 
     @classmethod
-    def find_by_username(cls, _username):
+    def find_by_username(cls, _username, method_update=False, _id=None):
+        if method_update:
+            return cls.query.filter(cls.username == _username, cls.deleted_at == None, id != _id).first()
         return cls.query.filter_by(username=_username, deleted_at=None).first()
 
     @classmethod
-    def find_by_email(cls, _email):
+    def find_by_email(cls, _email, method_update=False, _id=None):
+        if method_update:
+            return cls.query.filter(cls.email == _email, cls.deleted_at == None, id != _id).first()
         return cls.query.filter_by(email=_email, deleted_at=None).first()
 
     @classmethod
-    def find_by_phonenumber(cls, _phonenumber):
+    def find_by_phonenumber(cls, _phonenumber, method_update=False, _id=None):
+        if method_update:
+            return cls.query.filter(cls.phonenumber == _phonenumber, cls.deleted_at == None, id != _id).first()
         return cls.query.filter_by(phonenumber=_phonenumber, deleted_at=None).first()

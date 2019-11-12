@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api
-from resources.User import UserRegister, UserFindById, UserFindByUsername, User
+from resources.User import UserFindById, UserFindByUsername, User
 
 app = Flask(__name__)
 # mysql+pymysql://$USER:$PASS@$HOST/$DB
@@ -10,8 +10,6 @@ app.config['PROPAGATE_EXCEPTIONS'] = True
 # app.secret_key = 'jose'
 api = Api(app)
 
-
-api.add_resource(UserRegister, '/register')
 api.add_resource(UserFindByUsername, '/r/<string:username>')
 api.add_resource(UserFindById, '/user/<int:user_id>')
 api.add_resource(User, '/user')

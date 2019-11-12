@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e14985a6-d1bd-43a0-bf76-9f3482cbe4ce" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/helpers/RoleValidators.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/roles/UserRole.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/roles/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpers/General.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/UserModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/UserModel.py" afterDir="false" />
@@ -79,7 +74,8 @@
       <updated>1573183981272</updated>
       <workItem from="1573183982474" duration="4105000" />
       <workItem from="1573441618608" duration="20412000" />
-      <workItem from="1573472414401" duration="8000" />
+      <workItem from="1573472414401" duration="35000" />
+      <workItem from="1573530267891" duration="15334000" />
     </task>
     <servers />
   </component>
