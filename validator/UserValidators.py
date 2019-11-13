@@ -1,28 +1,29 @@
-from flask_restful import reqparse
-from helpers.RoleValidators import RoleValidator
+from helpers.CustomValidators import CustomValidator
+from helpers.General import General
 
 
-class UserRegister:
+class UserAddValidator:
 
     def __init__(self, _parser):
         self.parser = _parser
-        self.customValidator = RoleValidator()
+        self.customValidator = CustomValidator()
+        self.message = General().response_message()['validator']
 
     def validate(self):
         self.parser.add_argument('name',
                                  type=str,
                                  required=True,
-                                 help="This Name cannot be blank."
+                                 help=self.message['required']
                                  )
         self.parser.add_argument('username',
                                  type=str,
                                  required=True,
-                                 help="This Username cannot be blank."
+                                 help=self.message['required']
                                  )
         self.parser.add_argument('photo_profile',
                                  type=str,
                                  required=True,
-                                 help="This Profile Photo cannot be blank."
+                                 help=self.message['required']
                                  )
         self.parser.add_argument('phonenumber',
                                  type=str,
@@ -31,12 +32,11 @@ class UserRegister:
         self.parser.add_argument('birthday_place',
                                  type=str,
                                  required=True,
-                                 help="This Birthday Place cannot be blank."
+                                 help=self.message['required']
                                  )
         self.parser.add_argument('birthday',
                                  type=self.customValidator.date,
                                  required=True,
-                                 help="This Birthday cannot be blank."
                                  )
         self.parser.add_argument('address',
                                  type=str,
@@ -57,7 +57,6 @@ class UserRegister:
         self.parser.add_argument('email',
                                  type=self.customValidator.email,
                                  required=True,
-                                 help="This Email cannot be blank."
                                  )
         self.parser.add_argument('link_instagram',
                                  type=str,
@@ -86,24 +85,11 @@ class UserRegister:
         self.parser.add_argument('password',
                                  type=str,
                                  required=True,
-                                 help="This Password cannot be blank."
+                                 help=self.message['required']
                                  )
         self.parser.add_argument('type_theme',
                                  type=str,
                                  required=True,
-                                 help="This Type Theme cannot be blank."
-                                 )
-        return self.parser
-
-
-class Id:
-    def __init__(self, _parser):
-        self.parser = _parser
-
-    def validate(self):
-        self.parser.add_argument('id',
-                                 type=int,
-                                 required=True,
-                                 help="This Type id cannot be blank."
+                                 help=self.message['required']
                                  )
         return self.parser

@@ -1,0 +1,24 @@
+{
+    "db": {
+        "DATABASE_ENGINE": "mysql+pymysql",
+        "DATABASE_SERVER": "localhost",
+        "DATABASE_PORT": "3306",
+        "DATABASE_NAME": "andrechristikan-clone",
+        "DATABASE_USERNAME": "root",
+        "DATABASE_PASSWORD": "",
+        "DATABASE_CHARSET": "utf8mb4"
+    },
+    "app": {
+        "SQLALCHEMY_DATABASE_URI" :"{}://{}:{}@{}:{}/{}?charset={}",
+        "PROPAGATE_EXCEPTIONS": "True",
+        "SQLALCHEMY_TRACK_MODIFICATIONS": "False"
+    },
+    "other": {
+        "LANGUAGE_PACK": "en",
+        "PASSWORD_ENCODE": "utf8",
+        "SALT_ROUND": "16"
+    },
+    "jwt": {
+        "JWT_SECRET_KEY": "jose"
+    }
+}

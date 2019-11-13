@@ -1,7 +1,11 @@
 from flask_restful import Resource, reqparse
 from models.UserModel import UserModel
-from roles.UserRole import UserRegister as RoleUserRegister, Id as RoleId
+from validator.UserValidators import UserAddValidator
+from validator.IdValidator import IdValidator
 from helpers.General import General
+
+helper = General()
+message = helper.response_message()['user']
 
 
 class UserFindByUsername(Resource):
@@ -9,8 +13,14 @@ class UserFindByUsername(Resource):
     def get(cls, username: str):
         user = UserModel.find_by_username(username)
         if not user:
-            return {'message': 'User Not Found'}, 404
-        return user.json(), 200
+            return {
+                'message': message['not-found']
+            }, 404
+
+        return {
+            'message': message['single-found'],
+            'data': user.json()
+         }, 200
 
 
 class UserFindById(Resource):
@@ -18,29 +28,45 @@ class UserFindById(Resource):
     def get(cls, user_id: int):
         user = UserModel.find_by_id(user_id)
         if not user:
-            return {'message': 'User Not Found'}, 404
-        return user.json('User Found.'), 200
+            return {
+                'message': message['not-found']
+            }, 404
+
+        return {
+            'message': message['single-found'],
+            'data': user.json()
+         }, 200
 
 
 class User(Resource):
     @classmethod
     def get(cls, name=None, username=None, birthday=None, phonenumber=None, email=None):
-        users = UserModel.find_all(name, username, birthday, phonenumber, email, "User found.")
-        return users, 200
+        users = UserModel.find_all(name, username, birthday, phonenumber, email)
+
+        return {
+            'message': message['single-found'],
+            'data': users
+         }, 200
 
     @classmethod
     def post(cls):
-        _parser_register = RoleUserRegister(reqparse.RequestParser())
+        _parser_register = UserAddValidator(reqparse.RequestParser())
         _parser_register = _parser_register.validate()
 
         data = _parser_register.parse_args()
 
         if UserModel.find_by_username(data['username']):
-            return {"message": "A user with that username already exists"}, 400
+            return {
+                "message": message['username-exist']
+            }, 400
         elif UserModel.find_by_email(data['email']):
-            return {"message": "A user with that email already exists"}, 400
+            return {
+                "message": message['email-exist']
+            }, 400
         elif UserModel.find_by_phonenumber(data['phonenumber']):
-            return {"message": "A user with that phone number already exists"}, 400
+            return {
+                "message": message['phonenumber-exist']
+            }, 400
 
         user = UserModel(
             data['name'],
@@ -65,26 +91,34 @@ class User(Resource):
         )
         user.save()
 
-        return user.json('User created successfully.'), 201
+        return {
+            'message': message['inserted'],
+            'data': user.json()
+        }, 201
 
     @classmethod
     def delete(cls):
-        _parser = RoleId(reqparse.RequestParser())
+        _parser = IdValidator(reqparse.RequestParser())
         _parser = _parser.validate()
         data = _parser.parse_args()
 
         user = UserModel.find_by_id(data['id'])
         if not user:
-            return {'message': 'User Not Found'}, 404
+            return {
+                'message': message['not-found']
+            }, 404
         user.delete()
-        return {'message': 'User deleted.'}, 200
+
+        return {
+            'message': message['deleted']
+        }, 200
 
     @classmethod
     def put(cls):
-        _parser_id = RoleId(reqparse.RequestParser())
+        _parser_id = IdValidator(reqparse.RequestParser())
         _parser_id = _parser_id.validate()
 
-        _parser_register = RoleUserRegister(reqparse.RequestParser())
+        _parser_register = UserAddValidator(reqparse.RequestParser())
         _parser_register = _parser_register.validate()
 
         _id = _parser_id.parse_args()['id']
@@ -92,13 +126,21 @@ class User(Resource):
 
         user = UserModel.find_by_id(_id)
         if not user:
-            return {'message': 'User Not Found'}, 404
+            return {
+                'message': message['not-found']
+            }, 404
         elif UserModel.find_by_username(data['username'], True, _id):
-            return {"message": "A user with that username already exists"}, 400
+            return {
+                "message": message['username-exist']
+            }, 400
         elif UserModel.find_by_email(data['email'], True, _id):
-            return {"message": "A user with that email already exists"}, 400
+            return {
+                "message": message['email-exist']
+            }, 400
         elif UserModel.find_by_phonenumber(data['phonenumber'], True, _id):
-            return {"message": "A user with that phone number already exists"}, 400
+            return {
+                "message": message['phonenumber-exist']
+            }, 400
 
         user.name = data['name']
         user.username = data['username']
@@ -120,8 +162,11 @@ class User(Resource):
         user.type_theme = data['type_theme']
 
         if data['password'] or data['password'] != "":
-            user.password = General.password_hash(data['password'])
+            user.password = helper.password_hash(data['password'])
 
         user.update()
 
-        return user.json('User Updated.'), 200
+        return {
+            'message': message['updated'],
+            'data': user.json()
+        }, 200

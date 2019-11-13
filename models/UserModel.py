@@ -55,39 +55,36 @@ class UserModel(db.Model):
         self.link_youtube = link_youtube
         self.link_google_plus = link_google_plus
         self.link_facebook = link_facebook
-        self.password = General.password_hash(password)
+        self.password = General().password_hash(password)
         self.type_theme = type_theme
 
-    def json(self, message):
+    def json(self):
         return {
-            'message': message,
-            'data': {
-                'id': self.id,
-                'name': self.name,
-                'username': self.username,
-                'photo_profile': self.photo_profile,
-                'phonenumber': self.phonenumber,
-                'birthday_place': self.birthday_place,
-                'birthday': "{}-{}-{}".format(self.birthday.year, self.birthday.month, self.birthday.day),
-                'address': self.address,
-                'resume': self.resume,
-                'headline': self.headline,
-                'summary': self.summary,
-                'email': self.email,
-                'link_instagram': self.link_instagram,
-                'link_linkedin': self.link_linkedin,
-                'link_twitter': self.link_twitter,
-                'link_youtube': self.link_youtube,
-                'link_google_plus': self.link_google_plus,
-                'link_facebook': self.link_facebook,
-                'email_verified_at': "{}".format(self.email_verified_at) if self.email_verified_at else None,
-                'password': self.password,
-                'type_theme': self.type_theme,
-                'visit': self.visit,
-                'created_at': "{}".format(self.created_at) if self.created_at else None,
-                'updated_at': "{}".format(self.updated_at) if self.updated_at else None,
-                'deleted_at': "{}".format(self.deleted_at) if self.deleted_at else None,
-            }
+            'id': self.id,
+            'name': self.name,
+            'username': self.username,
+            'photo_profile': self.photo_profile,
+            'phonenumber': self.phonenumber,
+            'birthday_place': self.birthday_place,
+            'birthday': "{}-{}-{}".format(self.birthday.year, self.birthday.month, self.birthday.day),
+            'address': self.address,
+            'resume': self.resume,
+            'headline': self.headline,
+            'summary': self.summary,
+            'email': self.email,
+            'link_instagram': self.link_instagram,
+            'link_linkedin': self.link_linkedin,
+            'link_twitter': self.link_twitter,
+            'link_youtube': self.link_youtube,
+            'link_google_plus': self.link_google_plus,
+            'link_facebook': self.link_facebook,
+            'email_verified_at': "{}".format(self.email_verified_at) if self.email_verified_at else None,
+            'password': self.password,
+            'type_theme': self.type_theme,
+            'visit': self.visit,
+            'created_at': "{}".format(self.created_at) if self.created_at else None,
+            'updated_at': "{}".format(self.updated_at) if self.updated_at else None,
+            'deleted_at': "{}".format(self.deleted_at) if self.deleted_at else None,
         }
 
     def save(self):
@@ -104,9 +101,8 @@ class UserModel(db.Model):
         db.session.commit()
 
     @classmethod
-    def find_all(cls, _name, _username, _birthday, _phonenumber, _email, message):
+    def find_all(cls, _name, _username, _birthday, _phonenumber, _email):
         filters = []
-        response = []
 
         if _name is not None:
             filters.append(cls.name == _name)
@@ -119,75 +115,13 @@ class UserModel(db.Model):
         if _email is not None:
             filters.append(cls.email == _email)
 
+        users = cls.query.all()
         if filters is not None:
             users = cls.query.filter(or_(*filters)).all()
-            for user in users:
-                response.append(
-                    {
-                        'id': user.id,
-                        'name': user.name,
-                        'username': user.username,
-                        'photo_profile': user.photo_profile,
-                        'phonenumber': user.phonenumber,
-                        'birthday_place': user.birthday_place,
-                        'birthday': "{}-{}-{}".format(user.birthday.year, user.birthday.month, user.birthday.day),
-                        'address': user.address,
-                        'resume': user.resume,
-                        'headline': user.headline,
-                        'summary': user.summary,
-                        'email': user.email,
-                        'link_instagram': user.link_instagram,
-                        'link_linkedin': user.link_linkedin,
-                        'link_twitter': user.link_twitter,
-                        'link_youtube': user.link_youtube,
-                        'link_google_plus': user.link_google_plus,
-                        'link_facebook': user.link_facebook,
-                        'email_verified_at': "{}".format(user.email_verified_at) if user.email_verified_at else None,
-                        'password': user.password,
-                        'type_theme': user.type_theme,
-                        'visit': user.visit,
-                        'created_at': "{}".format(user.created_at) if user.created_at else None,
-                        'updated_at': "{}".format(user.updated_at) if user.updated_at else None,
-                        'deleted_at': "{}".format(user.deleted_at) if user.deleted_at else None,
-                    }
-                )
-        else:
-            users = cls.query.all()
-            for user in users:
-                response.append(
-                    {
-                        'id': user.id,
-                        'name': user.name,
-                        'username': user.username,
-                        'photo_profile': user.photo_profile,
-                        'phonenumber': user.phonenumber,
-                        'birthday_place': user.birthday_place,
-                        'birthday': "{}-{}-{}".format(user.birthday.year, user.birthday.month, user.birthday.day),
-                        'address': user.address,
-                        'resume': user.resume,
-                        'headline': user.headline,
-                        'summary': user.summary,
-                        'email': user.email,
-                        'link_instagram': user.link_instagram,
-                        'link_linkedin': user.link_linkedin,
-                        'link_twitter': user.link_twitter,
-                        'link_youtube': user.link_youtube,
-                        'link_google_plus': user.link_google_plus,
-                        'link_facebook': user.link_facebook,
-                        'email_verified_at': "{}".format(user.email_verified_at) if user.email_verified_at else None,
-                        'password': user.password,
-                        'type_theme': user.type_theme,
-                        'visit': user.visit,
-                        'created_at': "{}".format(user.created_at) if user.created_at else None,
-                        'updated_at': "{}".format(user.updated_at) if user.updated_at else None,
-                        'deleted_at': "{}".format(user.deleted_at) if user.deleted_at else None,
-                    }
-                )
 
-        return {
-            'message': message,
-            'data': response
-        }
+        data = [user.json() for user in users]
+
+        return data
 
     @classmethod
     def find_by_id(cls, _id):

@@ -1,0 +1,18 @@
+{
+  "user": {
+    "not-found": "User not found.",
+    "single-found": "User found.",
+    "multi-found": "Users found.",
+    "username-exist": "A user with that username already exists.",
+    "email-exist": "A user with that email already exists.",
+    "phonenumber-exist": "A user with that phone number already exists.",
+    "inserted": "User created successfully.",
+    "deleted": "User deleted.",
+    "updated": "User Updated."
+  },
+  "validator": {
+    "email-invalid": "Incorrect email format.",
+    "date-invalid": "Incorrect date format, should be YYYY-MM-DD.",
+    "required": "This field can't be blank."
+  }
+}
