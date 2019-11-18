@@ -5,7 +5,7 @@ from helpers.General import General
 
 
 class UserModel(db.Model):
-    __tablename__ = 'users'
+    __tablename__ = 'userss'
 
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     name = db.Column(db.String(191), nullable=False)
@@ -104,16 +104,11 @@ class UserModel(db.Model):
     def find_all(cls, _name, _username, _birthday, _phonenumber, _email):
         filters = []
 
-        if _name is not None:
-            filters.append(cls.name == _name)
-        if _username is not None:
-            filters.append(cls.username == _username)
-        if _birthday is not None:
-            filters.append(cls.birthday == _birthday)
-        if _phonenumber is not None:
-            filters.append(cls.phonenumber == _phonenumber)
-        if _email is not None:
-            filters.append(cls.email == _email)
+        filters.append(cls.name == _name) if _name is not None and _name != "" else None
+        filters.append(cls.username == _username) if _username is not None and _username != "" else None
+        filters.append(cls.birthday == _birthday) if _birthday is not None and _birthday != "" else None
+        filters.append(cls.phonenumber == _phonenumber) if _phonenumber is not None and _phonenumber != "" else None
+        filters.append(cls.email == _email) if _email is not None and _email != "" else None
 
         users = cls.query.all()
         if filters is not None:

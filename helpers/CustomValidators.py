@@ -24,7 +24,7 @@ class CustomValidator:
         if value is None or value == "":
             raise ValueError(message['required'])
 
-        is_valid = value if validate_email(value) else ValueError(message['email-invalid'])
+        value = value if validate_email(value) else ValueError(message['email-invalid'])
 
-        return is_valid
+        return value
 

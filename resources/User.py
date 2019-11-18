@@ -50,7 +50,7 @@ class User(Resource):
 
     @classmethod
     def post(cls):
-        _parser_register = UserAddValidator(reqparse.RequestParser())
+        _parser_register = UserAddValidator(reqparse.RequestParser(bundle_errors=True))
         _parser_register = _parser_register.validate()
 
         data = _parser_register.parse_args()
@@ -98,7 +98,7 @@ class User(Resource):
 
     @classmethod
     def delete(cls):
-        _parser = IdValidator(reqparse.RequestParser())
+        _parser = IdValidator(reqparse.RequestParser(bundle_errors=True))
         _parser = _parser.validate()
         data = _parser.parse_args()
 
@@ -115,7 +115,7 @@ class User(Resource):
 
     @classmethod
     def put(cls):
-        _parser_id = IdValidator(reqparse.RequestParser())
+        _parser_id = IdValidator(reqparse.RequestParser(bundle_errors=True))
         _parser_id = _parser_id.validate()
 
         _parser_register = UserAddValidator(reqparse.RequestParser())

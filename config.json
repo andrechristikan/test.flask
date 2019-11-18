@@ -9,9 +9,12 @@
         "DATABASE_CHARSET": "utf8mb4"
     },
     "app": {
+        "APP_SERVER" : "localhost",
+        "APP_PORT" : "8080",
         "SQLALCHEMY_DATABASE_URI" :"{}://{}:{}@{}:{}/{}?charset={}",
         "PROPAGATE_EXCEPTIONS": "True",
-        "SQLALCHEMY_TRACK_MODIFICATIONS": "False"
+        "SQLALCHEMY_TRACK_MODIFICATIONS": "False",
+        "DEBUG":"True"
     },
     "other": {
         "LANGUAGE_PACK": "en",

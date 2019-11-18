@@ -8,7 +8,8 @@
     "phonenumber-exist": "A user with that phone number already exists.",
     "inserted": "User created successfully.",
     "deleted": "User deleted.",
-    "updated": "User Updated."
+    "updated": "User Updated.",
+    "invalid-credential": "Invalid Credentials!"
   },
   "validator": {
     "email-invalid": "Incorrect email format.",
