@@ -2,7 +2,7 @@ import bcrypt
 import json
 
 
-class General:
+class Helpers:
 
     def __init__(self):
         with open('config.json') as f:
@@ -31,12 +31,21 @@ class General:
         hashed = bcrypt.hashpw(password.encode(self.config_other['PASSWORD_ENCODE']), salt)
         return hashed
 
-    def check_password(self, password, password_hashed):
-        checked = bcrypt.checkpw(password.encode(self.config_other['PASSWORD_ENCODE']), password_hashed)
-        return checked
+    def check_password(self, password, password_hash):
+        # hashed = self.password_hash(password)
+        if bcrypt.checkpw(
+                password.encode(
+                    self.config_other['PASSWORD_ENCODE']
+                ),
+                password_hash.encode(
+                    self.config_other['PASSWORD_ENCODE']
+                )
+        ):
+            return True
+        return False
 
     def response_message(self):
-        with open('Lang/'+self.config_other['LANGUAGE_PACK']+'.json') as f:
+        with open('Languages/'+self.config_other['LANGUAGE_PACK']+'.json') as f:
             message = json.load(f)
         return message
 

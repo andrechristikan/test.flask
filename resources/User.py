@@ -1,17 +1,17 @@
 from flask_restful import Resource, reqparse
 from models.UserModel import UserModel
-from validator.UserValidators import UserAddValidator
-from validator.IdValidator import IdValidator
-from helpers.General import General
+from validators.UserRequest import UserRequest
+from validators.IdRequest import IdRequest
+from helpers.Helpers import Helpers
 
-helper = General()
+helper = Helpers()
 message = helper.response_message()['user']
 
 
 class UserFindByUsername(Resource):
     @classmethod
     def get(cls, username: str):
-        user = UserModel.find_by_username(username)
+        user = UserModel.find_by_username(_username=username)
         if not user:
             return {
                 'message': message['not-found']
@@ -25,8 +25,8 @@ class UserFindByUsername(Resource):
 
 class UserFindById(Resource):
     @classmethod
-    def get(cls, user_id: int):
-        user = UserModel.find_by_id(user_id)
+    def get(cls, id: int):
+        user = UserModel.find_by_id(_id=id)
         if not user:
             return {
                 'message': message['not-found']
@@ -41,7 +41,7 @@ class UserFindById(Resource):
 class User(Resource):
     @classmethod
     def get(cls, name=None, username=None, birthday=None, phonenumber=None, email=None):
-        users = UserModel.find_all(name, username, birthday, phonenumber, email)
+        users = UserModel.find_all(_name=name, _username=username, _birthday=birthday, _phonenumber=phonenumber, _email=email)
 
         return {
             'message': message['single-found'],
@@ -50,20 +50,20 @@ class User(Resource):
 
     @classmethod
     def post(cls):
-        _parser_register = UserAddValidator(reqparse.RequestParser(bundle_errors=True))
+        _parser_register = UserRequest(reqparse.RequestParser(bundle_errors=True))
         _parser_register = _parser_register.validate()
 
         data = _parser_register.parse_args()
 
-        if UserModel.find_by_username(data['username']):
+        if UserModel.find_by_username(_username=data['username']):
             return {
                 "message": message['username-exist']
             }, 400
-        elif UserModel.find_by_email(data['email']):
+        elif UserModel.find_by_email(_email=data['email']):
             return {
                 "message": message['email-exist']
             }, 400
-        elif UserModel.find_by_phonenumber(data['phonenumber']):
+        elif UserModel.find_by_phonenumber(_phonenumber=data['phonenumber']):
             return {
                 "message": message['phonenumber-exist']
             }, 400
@@ -98,11 +98,11 @@ class User(Resource):
 
     @classmethod
     def delete(cls):
-        _parser = IdValidator(reqparse.RequestParser(bundle_errors=True))
+        _parser = IdRequest(reqparse.RequestParser(bundle_errors=True))
         _parser = _parser.validate()
         data = _parser.parse_args()
 
-        user = UserModel.find_by_id(data['id'])
+        user = UserModel.find_by_id(_id=data['id'])
         if not user:
             return {
                 'message': message['not-found']
@@ -115,29 +115,29 @@ class User(Resource):
 
     @classmethod
     def put(cls):
-        _parser_id = IdValidator(reqparse.RequestParser(bundle_errors=True))
+        _parser_id = IdRequest(reqparse.RequestParser(bundle_errors=True))
         _parser_id = _parser_id.validate()
 
-        _parser_register = UserAddValidator(reqparse.RequestParser())
+        _parser_register = UserRequest(reqparse.RequestParser())
         _parser_register = _parser_register.validate()
 
         _id = _parser_id.parse_args()['id']
         data = _parser_register.parse_args()
 
-        user = UserModel.find_by_id(_id)
+        user = UserModel.find_by_id(_id=_id)
         if not user:
             return {
                 'message': message['not-found']
             }, 404
-        elif UserModel.find_by_username(data['username'], True, _id):
+        elif UserModel.find_by_username(_username=data['username'], _method_update=True, _id=_id):
             return {
                 "message": message['username-exist']
             }, 400
-        elif UserModel.find_by_email(data['email'], True, _id):
+        elif UserModel.find_by_email(_email=data['email'], _method_update=True, _id=_id):
             return {
                 "message": message['email-exist']
             }, 400
-        elif UserModel.find_by_phonenumber(data['phonenumber'], True, _id):
+        elif UserModel.find_by_phonenumber(_phonenumber=data['phonenumber'], _method_update=True, _id=_id):
             return {
                 "message": message['phonenumber-exist']
             }, 400

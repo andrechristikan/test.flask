@@ -2,13 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e14985a6-d1bd-43a0-bf76-9f3482cbe4ce" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/validators/LoginRequest.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/validators/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lang/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/Lang/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lang/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Languages/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lang/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/Languages/en.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/CustomValidators.py" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/CustomValidators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/CustomValidators.py" beforeDir="false" afterPath="$PROJECT_DIR$/validators/Rules.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/General.py" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/Helpers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/UserModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/UserModel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/User.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/User.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routers.py" beforeDir="false" afterPath="$PROJECT_DIR$/routers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/validator/IdValidator.py" beforeDir="false" afterPath="$PROJECT_DIR$/validators/IdRequest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/validator/UserValidators.py" beforeDir="false" afterPath="$PROJECT_DIR$/validators/UserRequest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/validator/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Login.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,6 +44,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\private\resume-api\validators" />
       <recent name="D:\private\resume-api\helpers" />
       <recent name="D:\private\resume-api\validator" />
     </key>
@@ -86,7 +94,9 @@
       <workItem from="1573530267891" duration="15383000" />
       <workItem from="1573615918459" duration="15148000" />
       <workItem from="1573702729420" duration="3109000" />
-      <workItem from="1574059813866" duration="11078000" />
+      <workItem from="1574059813866" duration="12980000" />
+      <workItem from="1574133381131" duration="830000" />
+      <workItem from="1574220177289" duration="15433000" />
     </task>
     <servers />
   </component>

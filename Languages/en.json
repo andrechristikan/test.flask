@@ -8,12 +8,16 @@
     "phonenumber-exist": "A user with that phone number already exists.",
     "inserted": "User created successfully.",
     "deleted": "User deleted.",
-    "updated": "User Updated.",
-    "invalid-credential": "Invalid Credentials!"
+    "updated": "User Updated."
   },
   "validator": {
     "email-invalid": "Incorrect email format.",
     "date-invalid": "Incorrect date format, should be YYYY-MM-DD.",
     "required": "This field can't be blank."
+  },
+  "login": {
+    "failed": "Invalid Login or password.",
+    "invalid-credential": "Invalid Credentials!",
+    "succeed": "Login succeed."
   }
 }

@@ -1,11 +1,11 @@
 from datetime import datetime
 from db import db
 from sqlalchemy import or_
-from helpers.General import General
+from helpers.Helpers import Helpers
 
 
 class UserModel(db.Model):
-    __tablename__ = 'userss'
+    __tablename__ = 'users'
 
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     name = db.Column(db.String(191), nullable=False)
@@ -55,7 +55,7 @@ class UserModel(db.Model):
         self.link_youtube = link_youtube
         self.link_google_plus = link_google_plus
         self.link_facebook = link_facebook
-        self.password = General().password_hash(password)
+        self.password = Helpers().password_hash(password)
         self.type_theme = type_theme
 
     def json(self):
@@ -112,7 +112,7 @@ class UserModel(db.Model):
 
         users = cls.query.all()
         if filters is not None:
-            users = cls.query.filter(or_(*filters)).all()
+            users = cls.query.filter(or_(*filters), cls.deleted_at == None).all()
 
         data = [user.json() for user in users]
 
@@ -123,19 +123,19 @@ class UserModel(db.Model):
         return cls.query.filter_by(id=_id, deleted_at=None).first()
 
     @classmethod
-    def find_by_username(cls, _username, method_update=False, _id=None):
-        if method_update:
+    def find_by_username(cls, _username, _method_update=False, _id=None):
+        if _method_update:
             return cls.query.filter(cls.username == _username, cls.deleted_at == None, id != _id).first()
         return cls.query.filter_by(username=_username, deleted_at=None).first()
 
     @classmethod
-    def find_by_email(cls, _email, method_update=False, _id=None):
-        if method_update:
+    def find_by_email(cls, _email, _method_update=False, _id=None):
+        if _method_update:
             return cls.query.filter(cls.email == _email, cls.deleted_at == None, id != _id).first()
         return cls.query.filter_by(email=_email, deleted_at=None).first()
 
     @classmethod
-    def find_by_phonenumber(cls, _phonenumber, method_update=False, _id=None):
-        if method_update:
+    def find_by_phonenumber(cls, _phonenumber, _method_update=False, _id=None):
+        if _method_update:
             return cls.query.filter(cls.phonenumber == _phonenumber, cls.deleted_at == None, id != _id).first()
         return cls.query.filter_by(phonenumber=_phonenumber, deleted_at=None).first()
